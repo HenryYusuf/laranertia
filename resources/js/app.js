@@ -1,6 +1,7 @@
 import "../css/app.css";
 import { createApp, h } from "vue";
 import { createInertiaApp } from "@inertiajs/vue3";
+import Layout from "./Shared/Layout.vue";
 
 createInertiaApp({
     title: (title) => (title ? `${title} - Laranertia` : "Laranertia"),
@@ -18,8 +19,16 @@ createInertiaApp({
         showSpinner: false,
     },
     resolve: (name) => {
-        const pages = import.meta.glob("./Pages/**/*.vue", { eager: true });
-        return pages[`./Pages/${name}.vue`];
+        const pages = import.meta.glob("./Pages/**/*.vue");
+        return pages[`./Pages/${name}.vue`]().then((module) => {
+            /* 2 method same results */
+            if (!module.default.layout) {
+                module.default.layout = Layout;
+            }
+            // module.default.layout ??= Layout;
+
+            return module.default;
+        });
     },
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
