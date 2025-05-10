@@ -1,4 +1,8 @@
 <template>
+    <Head>
+        <title>Users</title>
+        <meta name="description" content="Users page" head-key="description" />
+    </Head>
     <h1 class="text-3xl">Users</h1>
     <div class="mt-[800px]">
         <p>The current time is {{ time }}.</p>
@@ -9,8 +13,6 @@
 </template>
 
 <script setup>
-import { Link } from "@inertiajs/vue3";
-
 defineProps({
     time: {
         type: String,

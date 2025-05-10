@@ -1,4 +1,8 @@
 <template>
+    <Head>
+        <title>Laranertia</title>
+        <meta name="description" content="Layout" head-key="description" />
+    </Head>
     <section class="p-6 bg-gray-200">
         <header class="flex justify-between">
             <div class="flex items-center">
