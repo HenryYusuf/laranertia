@@ -59,9 +59,11 @@
 </template>
 
 <script setup>
+import Pagination from "@/Shared/Pagination.vue";
+
 import { ref, watch } from "vue";
 import { router } from "@inertiajs/vue3";
-import Pagination from "@/Shared/Pagination.vue";
+import { debounce } from "lodash";
 
 const propos = defineProps({
     users: {
@@ -74,16 +76,19 @@ const propos = defineProps({
 
 const search = ref(propos.filters.search || "");
 
-watch(search, (value) => {
-    router.get(
-        "/users",
-        {
-            search: value,
-        },
-        {
-            preserveState: true,
-            replace: true,
-        }
-    );
-});
+watch(
+    search,
+    debounce(function (value) {
+        router.get(
+            "/users",
+            {
+                search: value,
+            },
+            {
+                preserveState: true,
+                replace: true,
+            }
+        );
+    }, 300)
+);
 </script>
