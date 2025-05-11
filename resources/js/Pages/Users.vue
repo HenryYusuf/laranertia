@@ -3,7 +3,15 @@
         <title>Users</title>
         <meta name="description" content="Users page" head-key="description" />
     </Head>
-    <h1 class="text-3xl">Users</h1>
+    <div class="flex justify-between mb-6">
+        <h1 class="text-3xl">Users</h1>
+        <input
+            v-model="search"
+            type="text"
+            placeholder="Search..."
+            class="border px-2 rounded-lg"
+        />
+    </div>
 
     <div class="relative overflow-x-auto">
         <table
@@ -46,11 +54,31 @@
 </template>
 
 <script setup>
+import { ref, watch } from "vue";
+import { router } from "@inertiajs/vue3";
 import Pagination from "../Shared/Pagination.vue";
 
-defineProps({
+const propos = defineProps({
     users: {
         type: Object,
     },
+    filters: {
+        type: Object,
+    },
+});
+
+const search = ref(propos.filters.search || "");
+
+watch(search, (value) => {
+    router.get(
+        "/users",
+        {
+            search: value,
+        },
+        {
+            preserveState: true,
+            replace: true,
+        }
+    );
 });
 </script>
