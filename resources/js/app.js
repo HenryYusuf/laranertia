@@ -21,10 +21,14 @@ createInertiaApp({
     resolve: (name) => {
         const pages = import.meta.glob("./Pages/**/*.vue");
         return pages[`./Pages/${name}.vue`]().then((module) => {
-            /* 2 method same results */
-            if (!module.default.layout) {
+            if (module.default.layout === undefined) {
                 module.default.layout = Layout;
             }
+
+            /* 2 method same results */
+            // if (!module.default.layout) {
+            //     module.default.layout = Layout;
+            // }
             // module.default.layout ??= Layout;
 
             return module.default;

@@ -6,7 +6,10 @@
     <div class="flex justify-between mb-6">
         <div class="flex items-center">
             <h1 class="text-3xl">Users</h1>
-            <Link href="/users/create" class="text-blue-500 text-sm ml-4"
+            <Link
+                v-if="can.createUser"
+                href="/users/create"
+                class="text-blue-500 text-sm ml-4"
                 >New user</Link
             >
         </div>
@@ -42,7 +45,7 @@
                     >
                         {{ user.name }}
                     </th>
-                    <td class="px-6 py-4">
+                    <td v-if="user.can.edit" class="px-6 py-4">
                         <Link
                             :href="`/users/${user.id}/edit`"
                             class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
@@ -70,6 +73,9 @@ const propos = defineProps({
         type: Object,
     },
     filters: {
+        type: Object,
+    },
+    can: {
         type: Object,
     },
 });
